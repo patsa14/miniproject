@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
+import Link from 'next/link';
 
 export default function Home() {
   const [services, setServices] = useState([
@@ -20,14 +21,16 @@ export default function Home() {
       <div className="text-2xl font-bold text-gray-800">UTO Advance</div>
     </div>
     <nav>
-      <ul className="flex space-x-6">
-        {["Home", "About", "Properties", "Contact"].map((item) => (
-          <li key={item}>
-            <a href={`#${item.toLowerCase()}`} className="text-gray-900 font-medium hover:text-slate-500">{item}</a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+  <ul className="flex space-x-6">
+    {["Home", "About", "Properties", "Contact"].map((item) => (
+      <li key={item}>
+        <Link href={item === "Home" ? "/" : `/${item.toLowerCase()}`} className="text-gray-900 font-medium hover:text-slate-500">
+          {item}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</nav>
   </div>
 </header>
 
@@ -91,7 +94,7 @@ export default function Home() {
         <div className="container mx-auto text-center">
           <p className="text-gray-400">&copy; 2024 UTO Advance Engineering. All rights reserved.</p>
           <div className="mt-4 flex justify-center space-x-6">
-            {["Facebook", "Twitter", "Instagram"].map((platform) => (
+            {["Facebook", "Instagram"].map((platform) => (
               <a key={platform} href="#" className="text-gray-400 hover:text-sky-400">{platform}</a>
             ))}
           </div>
