@@ -31,7 +31,7 @@ export default function About() {
         </header>
 
         {/* Hero Section with Box and Space Between Container */}
-        <section className="relative bg-cover bg-center h-[500px] text-shadow rounded-xl overflow-hidden shadow-lg mx-4 md:mx-8" style={{ backgroundImage: "url('/images/site.jpg')" }}>
+        <section className="relative bg-cover bg-center h-[400px] text-shadow rounded-xl overflow-hidden shadow-lg mx-4 md:mx-8 mt-5" style={{ backgroundImage: "url('/images/site.jpg')" }}>
           <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-60"></div>
           <div className="relative z-10 flex items-center justify-center h-full text-center text-white">
             <div>
@@ -48,7 +48,7 @@ export default function About() {
           <div className="container mx-auto px-4">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-8">Our Mission</h2>
             <p className="text-lg md:text-xl text-gray-600 text-center max-w-4xl mx-auto">
-              At UTO Advance, our mission is to provide cutting-edge engineering solutions that improve lives and build
+              At UTO Advance engineering, our mission is to provide cutting-edge engineering solutions that improve lives and build
               sustainable communities. We strive for excellence in every project, fostering innovation and collaboration
               with our clients.
             </p>
@@ -56,7 +56,7 @@ export default function About() {
         </section>
 
         {/* Values Section with Box */}
-        <section className="py-16 bg-white border border-gray-300 rounded-xl shadow-lg mt-8 mx-4 md:mx-8">
+        <section className="py-16 bg-white border border-gray-500 rounded-xl shadow-lg mt-8 mx-4 md:mx-8">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-8">Our Values</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -66,8 +66,8 @@ export default function About() {
                 { title: 'Sustainability', description: 'We focus on creating a sustainable future.' },
               ].map((value, index) => (
                 <div key={index} className="bg-sky-800 shadow-lg p-6 rounded-xl hover:shadow-2xl transition-all duration-300">
-                  <h3 className="text-xl font-semibold text-slate-400">{value.title}</h3>
-                  <p className="mt-4 text-slate-300">{value.description}</p>
+                  <h3 className="text-xl font-semibold text-slate-300">{value.title}</h3>
+                  <p className="mt-4 text-slate-00">{value.description}</p>
                 </div>
               ))}
             </div>
