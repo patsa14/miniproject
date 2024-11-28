@@ -22,7 +22,7 @@ export default function Home() {
           </div>
           <nav>
             <ul className="flex space-x-6">
-              {["Home", "About", "Services", "Contact"].map((item) => (
+              {["Home", "About", "Properties", "Contact"].map((item) => (
                 <li key={item}>
                   <Link
                     href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
@@ -98,7 +98,7 @@ export default function Home() {
       {/* Contact Info Section */}
       <section id="contact-info" className="py-12 bg-white">
         <div className="container mx-auto text-center">
-          <h3 className="text-3xl font-semibold text-gray-800 mb-4">Contact info</h3>
+          <h3 className="text-3xl font-semibold text-gray-800 mb-4">Contact Info</h3>
           <p className="text-gray-600 mb-6">We’d love to hear from you. Reach out to us through any of the following:</p>
           <div className="flex flex-col space-y-4 items-center">
             <p className="text-lg font-medium text-gray-700">
@@ -108,7 +108,7 @@ export default function Home() {
               <strong>Email:</strong> Utoadvance@gmail.com
             </p>
             <p className="text-lg font-medium text-gray-700">
-              <strong>Office Address:</strong> 123/112 Saransiri(koh kaew), Mueang , Phuket 83000
+              <strong>Office Address:</strong> 123/112 Saransiri(koh kaew), Mueang, Phuket 83000
             </p>
           </div>
         </div>
