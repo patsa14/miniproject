@@ -16,11 +16,33 @@ export default function Contact() {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error response from server:', errorData);
+        throw new Error('Failed to submit form.');
+      }
+  
+      const data = await response.json();
+      console.log('Form Submitted:', data);
+      alert('Form submitted successfully!');
+      setFormData({ name: '', phone: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('An error occurred while submitting the form.');
+    }
   };
-
+  
   return (
     <div>
       {/* Header */}
