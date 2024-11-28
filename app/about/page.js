@@ -67,7 +67,7 @@ export default function About() {
               ].map((value, index) => (
                 <div key={index} className="bg-sky-800 shadow-lg p-6 rounded-xl hover:shadow-2xl transition-all duration-300">
                   <h3 className="text-xl font-semibold text-slate-300">{value.title}</h3>
-                  <p className="mt-4 text-slate-00">{value.description}</p>
+                  <p className="mt-4 text-slate-100">{value.description}</p>
                 </div>
               ))}
             </div>
@@ -81,9 +81,11 @@ export default function About() {
             <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto">
               Reach out to us to learn more about our services and how we can collaborate on your next project.
             </p>
-            <button className="mt-8 px-8 py-4 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-all duration-300">
-              Contact Us
-            </button>
+            <Link href="/contact">
+              <button className="mt-8 px-8 py-4 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-all duration-300">
+                Contact Us
+              </button>
+            </Link>
           </div>
         </section>
 
@@ -98,7 +100,6 @@ export default function About() {
             </div>
           </div>
         </footer>
-
       </main>
     </>
   );

@@ -25,15 +25,15 @@ const servicesData = [
       "We ensure clean and efficient water supply systems for homes and businesses, including installation and repair.",
     gallery: [
       "/images/water2.jpg",
-      "/images/water3.jpg",
-      "/images/water4.jpg",
-      "/images/water5.jpg",
+      "/images/water8.jpg",
+      "/images/water7.jpg",
+      "/images/water6.jpg",
     ],
   },
   {
     id: 3,
     name: "Air Conditioning System",
-    img: "/images/air.jpg",
+    img: "/images/airr.jpg",
     description:
       "Our Air Conditioning System services offer cooling solutions tailored to your comfort and energy efficiency needs.",
     gallery: [

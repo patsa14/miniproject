@@ -7,7 +7,7 @@ export default function Home() {
   const [services] = useState([
     { id: 1, name: "Electrical System", img: "/images/elec.jpg" },
     { id: 2, name: "Water Supply System", img: "/images/water.jpg" },
-    { id: 3, name: "Air Conditioning System", img: "/images/air.jpg" },
+    { id: 3, name: "Air Conditioning System", img: "/images/airr.jpg" },
     { id: 4, name: "Design and Drafting", img: "/images/design.jpg" },
   ]);
 
