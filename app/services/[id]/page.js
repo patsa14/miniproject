@@ -1,7 +1,7 @@
 'use client';
 
-import React from "react";
-import { useParams, useRouter } from 'next/navigation';
+import React from 'react';
+import { useRouter } from 'next/router';  // useRouter from Next.js to get route parameters
 
 const servicesData = [
   {
@@ -59,9 +59,14 @@ const servicesData = [
 ];
 
 export default function ServiceDetail() {
-  const params = useParams();
-  const router = useRouter();
-  const serviceId = parseInt(params.id);
+  const router = useRouter(); // Get the router from Next.js
+  const { id } = router.query; // Get the 'id' from the URL parameters
+
+  if (!id) {
+    return <div>Loading...</div>; // Wait for the id to be available (this happens in client-side rendering)
+  }
+
+  const serviceId = parseInt(id);
   const service = servicesData.find((item) => item.id === serviceId);
 
   if (!service) {

@@ -1,41 +1,54 @@
+'use client';
+
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 export async function POST(req) {
+  // Parse the incoming JSON request body
+  const { name, email, phone, message } = await req.json();
+
+  // Validate input
+  if (!name || !email || !phone || !message) {
+    return new Response(
+      JSON.stringify({ message: 'All fields (Name, Email, Phone, and Message) are required.' }),
+      { status: 400 }
+    );
+  }
+
+  // Basic email validation (for format)
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailPattern.test(email)) {
+    return new Response(
+      JSON.stringify({ message: 'Invalid email format.' }),
+      { status: 400 }
+    );
+  }
+
   try {
-    // Parse the incoming JSON body
-    const data = await req.json();
-    const { name, phone, email, message } = data;
-
-    // Validate data fields
-    if (!name || !phone || !email || !message) {
-      return new Response(
-        JSON.stringify({ success: false, message: 'All fields are required.' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Save the new contact form data
-    const newContact = await prisma.contactForm.create({
+    // Create the contact form record in the database
+    const contactForm = await prisma.contactForm.create({
       data: {
         name,
-        phone,
         email,
+        phone,
         message,
       },
     });
 
-    // Return a successful response with the saved data
-    return new Response(
-      JSON.stringify({ success: true, data: newContact }),
-      { status: 201, headers: { 'Content-Type': 'application/json' } }
-    );
+    // Successfully created
+    return new Response(JSON.stringify(contactForm), { status: 201 });
   } catch (error) {
-    console.error('Error in POST /api/contact:', error);
+    // Log the error
+    console.error('Error creating contact form:', error);
+
+    // Respond with an error message
     return new Response(
-      JSON.stringify({ success: false, message: 'Error saving contact form' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      JSON.stringify({ message: 'An error occurred while submitting the form.' }),
+      { status: 500 }
     );
+  } finally {
+    // Disconnect Prisma Client to avoid memory leaks (important in serverless environments)
+    await prisma.$disconnect();
   }
 }
