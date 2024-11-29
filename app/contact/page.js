@@ -26,23 +26,23 @@ export default function Contact() {
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Error response from server:', errorData);
-        throw new Error('Failed to submit form.');
+        throw new Error(errorData.message || 'Failed to submit form.');
       }
-  
+
       const data = await response.json();
       console.log('Form Submitted:', data);
       alert('Form submitted successfully!');
       setFormData({ name: '', phone: '', email: '', message: '' });
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('An error occurred while submitting the form.');
+      alert(error.message || 'An error occurred while submitting the form.');
     }
   };
-  
+
   return (
     <div>
       {/* Header */}
@@ -168,7 +168,7 @@ export default function Contact() {
               type="submit"
               className="w-full bg-sky-700 text-white py-3 px-4 rounded-lg hover:bg-sky-600 focus:outline-none transition"
             >
-              Request for call back
+              Submit
             </button>
           </form>
         </div>
