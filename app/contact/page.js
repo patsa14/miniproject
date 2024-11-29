@@ -168,7 +168,7 @@ export default function Contact() {
               type="submit"
               className="w-full bg-sky-700 text-white py-3 px-4 rounded-lg hover:bg-sky-600 focus:outline-none transition"
             >
-              Submit
+              Request for call back
             </button>
           </form>
         </div>
