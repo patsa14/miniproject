@@ -51,6 +51,7 @@ export async function POST(req) {
         password: hashedPassword,
       },
     });
+    console.log('Created user:', user);
 
     // Respond with the newly created user
     return new Response(
