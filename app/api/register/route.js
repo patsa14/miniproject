@@ -1,9 +1,9 @@
+// /app/api/register/route.js (or any preferred path within /app/api)
 'use client';
 
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
-// Initialize the Prisma Client
 const prisma = new PrismaClient();
 
 export async function POST(req) {
@@ -51,6 +51,7 @@ export async function POST(req) {
         password: hashedPassword,
       },
     });
+
     console.log('Created user:', user);
 
     // Respond with the newly created user
