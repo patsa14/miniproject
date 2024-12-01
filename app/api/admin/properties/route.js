@@ -1,9 +1,24 @@
 import { NextResponse } from 'next/server';
 
-let properties = [];  // Replace with your database or data source
+let properties = [
+  {
+    id: 1,
+    name: "Pool Villa",
+    location: "Manik - Phuket",
+    description: "Sleek modern stylish apartments",
+    img: "/images/pool.jpg",
+  },
+  {
+    id: 2,
+    name: "Cafe",
+    location: "Mueang - Phuket",
+    description: "Sophisticated urban living",
+    img: "/images/pro1.jpg",
+  }
+];  // Make sure this array is not cleared out unexpectedly
 
 export async function GET() {
-  return NextResponse.json(properties);
+  return NextResponse.json(properties);  // Return all properties
 }
 
 export async function POST(req) {

@@ -1,16 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export default function Properties() {
-  const properties = [
+  const defaultProperties = [
     {
       id: 1,
       name: "Pool Villa",
       location: "Manik - Phuket",
       description: "Discover the epitome of contemporary living in our sleek and chic modern stylish apartments.",
-    //   price: "$150,000",
       img: "/images/pool.jpg",
     },
     {
@@ -18,14 +17,34 @@ export default function Properties() {
       name: "Cafe",
       location: "Mueang - Phuket",
       description: "Experience the perfect blend of sophistication and urban living in our cutting-edge contemporary apartments.",
-    //   price: "$150,000",
       img: "/images/pro1.jpg",
     },
   ];
 
+  const [properties, setProperties] = useState(defaultProperties);
+
+  useEffect(() => {
+    // Fetch properties from the API
+    async function fetchProperties() {
+      try {
+        const response = await fetch('/api/admin/properties');
+        if (!response.ok) {
+          throw new Error('Failed to fetch properties');
+        }
+        const data = await response.json();
+        if (data.length > 0) {
+          setProperties(data);
+        }
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+        // Keep the default properties if the API fails
+      }
+    }
+    fetchProperties();
+  }, []);
+
   return (
     <main className="min-h-screen bg-sky-50">
-
       {/* Header (Navigation Bar) */}
       <header className="sticky top-0 bg-gradient-to-l from-sky-700 via-white shadow-lg py-6 z-50">
         <div className="container mx-auto flex justify-between items-center">
@@ -66,37 +85,34 @@ export default function Properties() {
         </div>
       </section>
 
-{/* Properties Section */}
-<section
-  className="relative bg-sky-800 rounded-xl shadow-lg mx-4 md:mx-8 mt-5 mb-10 overflow-hidden"
->
-  <div className="container mx-auto py-10">
-    {properties.map((property) => (
-      <div
-        key={property.id}
-        className="mb-12 bg-white p-6 rounded-lg shadow-md border border-gray-300"
+      {/* Properties Section */}
+      <section
+        className="relative bg-sky-800 rounded-xl shadow-lg mx-4 md:mx-8 mt-5 mb-10 overflow-hidden"
       >
-        <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-6">
-          <div className="md:w-1/2">
-            <img
-              src={property.img}
-              alt={property.name}
-              className="w-full h-auto rounded-lg"
-            />
-          </div>
-          <div className="md:w-1/2 space-y-4">
-            <h3 className="text-3xl font-semibold text-gray-900">{property.name}</h3>
-            <p className="text-gray-500 uppercase text-sm">{property.location}</p>
-            <p className="text-gray-700">{property.description}</p>
-            <p className="text-2xl font-bold text-sky-800">{property.price}</p>
-          </div>
+        <div className="container mx-auto py-10">
+          {properties.map((property) => (
+            <div
+              key={property.id}
+              className="mb-12 bg-white p-6 rounded-lg shadow-md border border-gray-300"
+            >
+              <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-6">
+                <div className="md:w-1/2">
+                  <img
+                    src={property.img}
+                    alt={property.name}
+                    className="w-full h-auto rounded-lg"
+                  />
+                </div>
+                <div className="md:w-1/2 space-y-4">
+                  <h3 className="text-3xl font-semibold text-gray-900">{property.name}</h3>
+                  <p className="text-gray-500 uppercase text-sm">{property.location}</p>
+                  <p className="text-gray-700">{property.description}</p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
-    ))}
-  </div>
-</section>
-
-
+      </section>
 
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-8">

@@ -13,16 +13,29 @@ export default function AdminPropertiesPage() {
   });
   const [editingProperty, setEditingProperty] = useState(null);
 
-  // Fetch properties on component mount
   useEffect(() => {
     async function fetchProperties() {
       const response = await fetch('/api/admin/properties');
       const data = await response.json();
       setProperties(data);
     }
-
+  
     fetchProperties();
-  }, []);
+  }, []);  // Only runs once when the component mounts
+  
+  // After adding a property, refetch the properties list
+  useEffect(() => {
+    async function fetchProperties() {
+      const response = await fetch('/api/admin/properties');
+      const data = await response.json();
+      setProperties(data);
+    }
+  
+    if (properties.length > 0) {
+      fetchProperties();
+    }
+  }, [properties]);  // Triggered when the properties array changes
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,16 +44,16 @@ export default function AdminPropertiesPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Validate input
     if (!formData.name || !formData.location || !formData.description || !formData.img) {
       alert('Please fill in all fields');
       return;
     }
-
+  
     const method = editingProperty ? 'PUT' : 'POST';
     const url = '/api/admin/properties';
-
+  
     try {
       const response = await fetch(url, {
         method,
@@ -52,22 +65,24 @@ export default function AdminPropertiesPage() {
           id: editingProperty?.id,  // Only send id if updating
         }),
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to save property');
       }
-
+  
       const updatedProperty = await response.json();
+  
+      // If it's a POST request (new property), add the new property to the existing list of properties
       if (method === 'POST') {
-        setProperties((prev) => [...prev, updatedProperty]);  // Add new property
+        setProperties((prevProperties) => [...prevProperties, updatedProperty]); // Keep old properties and add the new one
       } else {
-        setProperties((prev) =>
-          prev.map((property) =>
+        setProperties((prevProperties) =>
+          prevProperties.map((property) =>
             property.id === updatedProperty.id ? updatedProperty : property
           )
-        );  // Update existing property
+        );  // For PUT, update the specific property
       }
-
+  
       // Reset form and state
       setFormData({ name: '', location: '', description: '', img: '' });
       setEditingProperty(null);
@@ -75,7 +90,8 @@ export default function AdminPropertiesPage() {
       console.error('Error:', error);
       alert('Failed to save property');
     }
-  };
+  };  
+  
 
   const handleDelete = async (id) => {
     try {
