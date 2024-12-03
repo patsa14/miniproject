@@ -1,34 +1,21 @@
-'use client';
+// /app/services/[id]/page.js
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import React from 'react';
 
 const servicesData = [
   {
     id: 1,
     name: "Electrical System",
     img: "/images/elec.jpg",
-    description:
-      "Our Electrical System services provide reliable and safe installations, maintenance, and upgrades for residential, commercial, and industrial needs.",
-    gallery: [
-      "/images/elec2.jpg",
-      "/images/elec3.jpg",
-      "/images/elec5.jpg",
-      "/images/elec6.jpg",
-    ],
+    description: "Our Electrical System services provide reliable and safe installations...",
+    gallery: ["/images/elec2.jpg", "/images/elec3.jpg"],
   },
   {
     id: 2,
     name: "Water Supply System",
     img: "/images/water.jpg",
-    description:
-      "We ensure clean and efficient water supply systems for homes and businesses, including installation and repair.",
-    gallery: [
-      "/images/water2.jpg",
-      "/images/water8.jpg",
-      "/images/water7.jpg",
-      "/images/water6.jpg",
-    ],
+    description: "We ensure clean and efficient water supply systems...",
+    gallery: ["/images/water2.jpg", "/images/water8.jpg"],
   },
   {
     id: 3,
@@ -58,41 +45,15 @@ const servicesData = [
   },
 ];
 
-export default function ServiceDetail() {
-  const router = useRouter();
-  const [serviceId, setServiceId] = useState(null); // Track the service ID
-  const [isClient, setIsClient] = useState(false); // Ensure useRouter runs only on the client
-
-  useEffect(() => {
-    // This will ensure that router is only accessed on the client-side
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (router.query.id) {
-      // Ensure the id exists in the query params before parsing it
-      const parsedId = parseInt(router.query.id, 10);
-      setServiceId(parsedId); // Set the service ID from the query param
-    }
-  }, [router.query.id]);
-
-  if (!isClient || serviceId === null) {
-    return <div>Loading...</div>; // Ensure loading state until client-side rendering
-  }
-
-  const service = servicesData.find((item) => item.id === serviceId);
+export default function ServiceDetail({ params }) {
+  const { id } = params;  // This comes from the dynamic segment [id]
+  const service = servicesData.find((service) => service.id.toString() === id);
 
   if (!service) {
     return (
       <div className="container mx-auto text-center py-20">
         <h1 className="text-4xl font-bold text-red-600">Service Not Found</h1>
         <p className="text-lg mt-4">The requested service does not exist.</p>
-        <button
-          onClick={() => router.push('/')}
-          className="mt-4 px-6 py-3 bg-sky-800 text-white rounded-lg hover:bg-gray-700 transition duration-300"
-        >
-          Go Back to Home
-        </button>
       </div>
     );
   }
@@ -100,7 +61,6 @@ export default function ServiceDetail() {
   return (
     <div className="container mx-auto py-16 px-4 lg:px-20">
       <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
-        {/* Hero Section */}
         <div className="relative w-full h-[400px]">
           <img
             src={service.img}
@@ -111,31 +71,18 @@ export default function ServiceDetail() {
             <h1 className="text-5xl font-bold text-white">{service.name}</h1>
           </div>
         </div>
-
-        {/* Content Section */}
         <div className="p-8 lg:p-12">
-          <p className="text-gray-700 text-lg leading-relaxed mb-6">
-            {service.description}
-          </p>
-
-          {/* Additional Information */}
+          <p className="text-gray-700 text-lg leading-relaxed mb-6">{service.description}</p>
           <div className="bg-gray-100 p-6 rounded-lg mb-6">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-              Why Choose This Service?
-            </h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Why Choose This Service?</h3>
             <ul className="list-disc list-inside text-gray-600 space-y-2">
               <li>High-quality, professional work guaranteed.</li>
               <li>Expert technicians with years of experience.</li>
               <li>Customized solutions for every client.</li>
-              <li>Affordable and transparent pricing.</li>
             </ul>
           </div>
-
-          {/* Image Gallery */}
           <div className="bg-gray-50 p-6 rounded-lg">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-              Gallery
-            </h3>
+            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Gallery</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {service.gallery.map((image, index) => (
                 <img
@@ -147,14 +94,7 @@ export default function ServiceDetail() {
               ))}
             </div>
           </div>
-
-          {/* CTA Button */}
-          <button
-            onClick={() => router.back()}
-            className="mt-8 px-6 py-3 bg-sky-800 text-white rounded-lg shadow-lg hover:bg-sky-700 transition duration-300 transform hover:scale-105"
-          >
-            Go Back
-          </button>
+          
         </div>
       </div>
     </div>
