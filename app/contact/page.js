@@ -18,19 +18,22 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Client-side validation
+
+    // Check if form fields are filled
     if (!formData.name || !formData.email || !formData.message) {
       alert("All fields are required.");
       return;
     }
-  
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
+
+    // Ensure email is valid
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(formData.email)) {
       alert("Please enter a valid email address.");
       return;
     }
-  
+
+    console.log("Form data before submission:", formData); // Debug: check data
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -39,13 +42,13 @@ export default function Contact() {
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Error response from server:', errorData);
         throw new Error(errorData.message || 'Failed to submit form.');
       }
-  
+
       const data = await response.json();
       console.log('Form Submitted:', data);
       alert('Form submitted successfully!');
@@ -55,7 +58,6 @@ export default function Contact() {
       alert(error.message || 'An error occurred while submitting the form.');
     }
   };
-  
 
   return (
     <div>
