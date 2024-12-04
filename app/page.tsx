@@ -104,7 +104,7 @@ export default function Home() {
         </div>
       </section>
 
-             {/* Display welcome message with a beautiful design */}
+      {/* Display welcome message with a beautiful design */}
       {username && (
         <section id="welcome-message" className="py-12 bg-gradient-to-r from-sky-600 via-white-600 to-slate-600">
           <div className="container mx-auto text-center text-white">

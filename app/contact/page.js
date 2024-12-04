@@ -99,72 +99,70 @@ export default function Contact() {
           </p>
           <form
             onSubmit={handleSubmit}
-            className="max-w-4xl mx-auto bg-white p-10 shadow-xl rounded-xl border border-sky-200"
+            className="max-w-4xl mx-auto bg-white p-12 shadow-2xl rounded-xl border border-sky-200"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Name Input */}
-              <div className="mb-6">
-                <label
-                  htmlFor="name"
-                  className="block text-lg font-medium text-gray-700"
-                >
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
-                  required
-                />
-              </div>
+            {/* Name Input */}
+            <div className="mb-6">
+              <label
+                htmlFor="name"
+                className="block text-lg font-medium text-gray-700 mb-2"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-300 ease-in-out text-lg"
+                required
+              />
+            </div>
 
-              {/* Phone Input */}
-              <div className="mb-6">
-                <label
-                  htmlFor="phone"
-                  className="block text-lg font-medium text-gray-700"
-                >
-                  Phone
-                </label>
-                <input
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
-                  required
-                />
-              </div>
+            {/* Phone Input */}
+            <div className="mb-6">
+              <label
+                htmlFor="phone"
+                className="block text-lg font-medium text-gray-700 mb-2"
+              >
+                Phone
+              </label>
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-300 ease-in-out text-lg"
+                required
+              />
+            </div>
 
-              {/* Email Input */}
-              <div className="mb-6">
-                <label
-                  htmlFor="email"
-                  className="block text-lg font-medium text-gray-700"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
-                  required
-                />
-              </div>
+            {/* Email Input */}
+            <div className="mb-6">
+              <label
+                htmlFor="email"
+                className="block text-lg font-medium text-gray-700 mb-2"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-300 ease-in-out text-lg"
+                required
+              />
             </div>
 
             {/* Message Input */}
             <div className="mb-6">
               <label
                 htmlFor="message"
-                className="block text-lg font-medium text-gray-700"
+                className="block text-lg font-medium text-gray-700 mb-2"
               >
                 Message
               </label>
@@ -173,7 +171,7 @@ export default function Contact() {
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition"
+                className="w-full px-6 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition duration-300 ease-in-out text-lg"
                 rows="6"
                 required
               ></textarea>
@@ -182,7 +180,7 @@ export default function Contact() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-sky-700 text-white py-3 px-4 rounded-lg hover:bg-sky-600 focus:outline-none transition"
+              className="w-full bg-sky-700 text-white py-4 px-6 rounded-lg hover:bg-sky-600 focus:outline-none transition duration-300 ease-in-out"
             >
               Submit
             </button>

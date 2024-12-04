@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation'; // Importing the useRouter hook
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ export default function RegisterPage() {
   });
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter(); // To handle redirection
 
   const handleChange = (e) => {
     setFormData({
@@ -46,10 +48,15 @@ export default function RegisterPage() {
     }
   };
 
+  // Handle back to home page
+  const handleBackToHome = () => {
+    router.push('/'); // Redirect to the homepage
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <div className="w-full max-w-md p-6 bg-white shadow-md rounded-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Sign Up</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Sign Up</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">Name</label>
@@ -59,7 +66,7 @@ export default function RegisterPage() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
           <div>
@@ -70,7 +77,7 @@ export default function RegisterPage() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
           <div>
@@ -81,13 +88,13 @@ export default function RegisterPage() {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-2 text-white bg-black rounded-md hover:bg-gray-800"
+            className="w-full py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
           >
             {isLoading ? 'Signing up...' : 'Sign Up'}
           </button>
@@ -101,6 +108,15 @@ export default function RegisterPage() {
             {message}
           </p>
         )}
+        
+        {/* Go Back to Home Button */}
+        <button
+          type="button"
+          onClick={handleBackToHome}
+          className="w-full py-2 mt-4 text-blue-600 hover:text-blue-800 border border-blue-600 rounded-md"
+        >
+          Back to Home
+        </button>
       </div>
     </div>
   );

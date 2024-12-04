@@ -17,7 +17,6 @@ export default function Login() {
     setSuccess(''); // Reset success message
     setLoading(true); // Start loading
 
-    
     // Basic client-side validation
     if (!email || !password) {
       setError('Email and password are required.');
@@ -72,36 +71,32 @@ export default function Login() {
 
   return (
     <div className="container mx-auto py-20">
-      <h1 className="text-3xl font-bold mb-6 text-center">Login</h1>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-gray-100 p-6 rounded-lg shadow">
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        {success && <p className="text-green-500 mb-4">{success}</p>}
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Login</h1>
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+        {error && <p className="text-red-600 mb-4">{error}</p>}
+        {success && <p className="text-green-600 mb-4">{success}</p>}
         
         <div className="mb-4">
-          <label htmlFor="email" className="block font-medium text-gray-700">
-            Email
-          </label>
+          <label htmlFor="email" className="block font-medium text-gray-700">Email</label>
           <input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
         
         <div className="mb-4">
-          <label htmlFor="password" className="block font-medium text-gray-700">
-            Password
-          </label>
+          <label htmlFor="password" className="block font-medium text-gray-700">Password</label>
           <input
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
@@ -116,7 +111,7 @@ export default function Login() {
           <button
             type="button"
             onClick={handleBackToHome}
-            className="px-4 py-2 text-blue-600 hover:text-blue-800"
+            className="px-4 py-2 text-blue-600 hover:text-blue-800 border border-blue-600 rounded-md"
           >
             Back to Home
           </button>
