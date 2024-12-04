@@ -15,7 +15,7 @@ let properties = [
     description: "Sophisticated urban living",
     img: "/images/pro1.jpg",
   }
-];  // Make sure this array is not cleared out unexpectedly
+];  
 
 export async function GET() {
   return NextResponse.json(properties);  // Return all properties

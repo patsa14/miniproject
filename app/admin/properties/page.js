@@ -12,48 +12,40 @@ export default function AdminPropertiesPage() {
     img: '',
   });
   const [editingProperty, setEditingProperty] = useState(null);
+  const [error, setError] = useState('');
 
+  // Fetch properties once on component mount
   useEffect(() => {
-    async function fetchProperties() {
-      const response = await fetch('/api/admin/properties');
-      const data = await response.json();
-      setProperties(data);
-    }
-  
+    const fetchProperties = async () => {
+      try {
+        const response = await fetch('/api/admin/properties');
+        const data = await response.json();
+        setProperties(data);
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+        setError('Failed to fetch properties');
+      }
+    };
     fetchProperties();
-  }, []);  // Only runs once when the component mounts
-  
-  // After adding a property, refetch the properties list
-  useEffect(() => {
-    async function fetchProperties() {
-      const response = await fetch('/api/admin/properties');
-      const data = await response.json();
-      setProperties(data);
-    }
-  
-    if (properties.length > 0) {
-      fetchProperties();
-    }
-  }, [properties]);  // Triggered when the properties array changes
-  
+  }, []);
 
+  // Handle form changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  // Handle form submission (Add/Edit property)
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Validate input
     if (!formData.name || !formData.location || !formData.description || !formData.img) {
-      alert('Please fill in all fields');
+      setError('Please fill in all fields');
       return;
     }
-  
+
     const method = editingProperty ? 'PUT' : 'POST';
     const url = '/api/admin/properties';
-  
+
     try {
       const response = await fetch(url, {
         method,
@@ -62,37 +54,35 @@ export default function AdminPropertiesPage() {
         },
         body: JSON.stringify({
           ...formData,
-          id: editingProperty?.id,  // Only send id if updating
+          id: editingProperty?.id,
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to save property');
       }
-  
+
       const updatedProperty = await response.json();
-  
-      // If it's a POST request (new property), add the new property to the existing list of properties
-      if (method === 'POST') {
-        setProperties((prevProperties) => [...prevProperties, updatedProperty]); // Keep old properties and add the new one
-      } else {
-        setProperties((prevProperties) =>
-          prevProperties.map((property) =>
+      setProperties((prevProperties) => {
+        if (method === 'POST') {
+          return [...prevProperties, updatedProperty]; // Add new property
+        } else {
+          return prevProperties.map((property) =>
             property.id === updatedProperty.id ? updatedProperty : property
-          )
-        );  // For PUT, update the specific property
-      }
-  
-      // Reset form and state
+          ); // Update existing property
+        }
+      });
+
       setFormData({ name: '', location: '', description: '', img: '' });
       setEditingProperty(null);
+      setError('');
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to save property');
+      setError('Failed to save property');
     }
-  };  
-  
+  };
 
+  // Handle property delete
   const handleDelete = async (id) => {
     try {
       const response = await fetch('/api/admin/properties', {
@@ -107,14 +97,14 @@ export default function AdminPropertiesPage() {
         throw new Error('Failed to delete property');
       }
 
-      // Remove the property from the list
       setProperties(properties.filter((property) => property.id !== id));
     } catch (error) {
       console.error('Error deleting property:', error);
-      alert('Failed to delete property');
+      setError('Failed to delete property');
     }
   };
 
+  // Handle edit button click
   const handleEdit = (property) => {
     setFormData({
       name: property.name,
@@ -135,10 +125,10 @@ export default function AdminPropertiesPage() {
           </div>
           <nav>
             <ul className="flex space-x-6">
-              {["Home", "About", "Properties", "Contact"].map((item) => (
+              {['Home', 'About', 'Properties', 'Contact'].map((item) => (
                 <li key={item}>
                   <Link
-                    href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                    href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
                     className="text-gray-900 font-medium hover:text-slate-500 transition-all"
                   >
                     {item}
@@ -153,57 +143,32 @@ export default function AdminPropertiesPage() {
       <section className="container mx-auto py-10">
         <h2 className="text-4xl font-semibold mb-6">Manage Properties</h2>
 
+        {/* Error message */}
+        {error && <div className="bg-red-500 text-white p-2 mb-4">{error}</div>}
+
+        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label>Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label>Location:</label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label>Description:</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label>Image URL:</label>
-            <input
-              type="text"
-              name="img"
-              value={formData.img}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
-          </div>
+          {['name', 'location', 'description', 'img'].map((field) => (
+            <div key={field}>
+              <label className="block">{field.charAt(0).toUpperCase() + field.slice(1)}:</label>
+              <input
+                type="text"
+                name={field}
+                value={formData[field]}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border border-gray-300 rounded-md"
+              />
+            </div>
+          ))}
           <button type="submit" className="bg-sky-600 text-white p-3 rounded-md">
             {editingProperty ? 'Update' : 'Add'} Property
           </button>
         </form>
 
+        {/* Property List */}
         <h3 className="text-3xl font-semibold mt-10">Property List</h3>
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {properties.map((property) => (
             <div key={property.id} className="bg-white p-6 rounded-lg shadow-md border border-gray-300">
               <h4 className="text-2xl font-semibold">{property.name}</h4>

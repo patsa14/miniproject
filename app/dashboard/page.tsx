@@ -1,7 +1,8 @@
 // app/dashboard/page.tsx
 'use client';
-import ProtectedRoute from '../components/ProtectedRoute'; // Correct the path if necessary
-import LogoutButton from '../components/LogoutButton';     // Correct the path if necessary
+
+import ProtectedRoute from '../../components/ProtectedRoute';
+import LogoutButton from '../../components/LogoutButton';      // Correct the path if necessary
 
 export default function Dashboard() {
     return (

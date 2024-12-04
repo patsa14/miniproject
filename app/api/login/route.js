@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'; // Optional for token-based authentication
+import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
@@ -11,9 +12,9 @@ export async function POST(req) {
 
     // Validate the input
     if (!email || !password) {
-      return new Response(
-        JSON.stringify({ message: 'Email and password are required.' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { message: 'Email and password are required.' },
+        { status: 400 }
       );
     }
 
@@ -24,9 +25,9 @@ export async function POST(req) {
 
     // Check if the user exists
     if (!user) {
-      return new Response(
-        JSON.stringify({ message: 'Invalid email or password.' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { message: 'Invalid email or password.' },
+        { status: 401 }
       );
     }
 
@@ -34,9 +35,9 @@ export async function POST(req) {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return new Response(
-        JSON.stringify({ message: 'Invalid email or password.' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { message: 'Invalid email or password.' },
+        { status: 401 }
       );
     }
 
@@ -47,17 +48,18 @@ export async function POST(req) {
       { expiresIn: '1h' }
     );
 
-    return new Response(
-      JSON.stringify({ message: 'Login successful!', token, user }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    // Return success response with the token
+    return NextResponse.json(
+      { message: 'Login successful!', token, user },
+      { status: 200 }
     );
   } catch (error) {
     console.error('Error during login:', error);
-    return new Response(
-      JSON.stringify({ message: 'An error occurred during login.', error: error.message }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    return NextResponse.json(
+      { message: 'An error occurred during login.', error: error.message },
+      { status: 500 }
     );
   } finally {
-    await prisma.$disconnect();
+    await prisma.$disconnect(); // Disconnect Prisma client after the operation
   }
 }
