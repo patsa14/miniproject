@@ -1,15 +1,37 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const [username, setUsername] = useState<string | null>(null);
+  const [loggedOut, setLoggedOut] = useState(false); 
+  const router = useRouter();
   const [services] = useState([
     { id: 1, name: "Electrical System", img: "/images/elec.jpg" },
     { id: 2, name: "Water Supply System", img: "/images/water.jpg" },
     { id: 3, name: "Air Conditioning System", img: "/images/airr.jpg" },
     { id: 4, name: "Design and Drafting", img: "/images/design.jpg" },
   ]);
+ 
+  useEffect(() => {
+    // Retrieve the username from localStorage
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername); // Set the username
+    }
+  }, []);
+
+  const handleLogout = () => {
+    // Clear localStorage on logout
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+
+    // Update the state to reflect logout
+    setUsername(null);  // This will remove the username from the UI
+    setLoggedOut(true);  // Show logout message
+  };
 
   return (
     <div>
@@ -32,26 +54,38 @@ export default function Home() {
                   </Link>
                 </li>
               ))}
-              {/* Sign In and Sign Up Buttons */}
-              <li>
+               {/* Sign In and Sign Up Buttons */}
+               <li>
                 <div className="flex space-x-4">
-                  <Link href="/login">
-                    <button className="px-4 py-2 border bg-white border-gray-400 text-black rounded-md hover:bg-gray-100">
-                      Sign in
-                    </button>
-                  </Link>
+                  {!username ? (
+                    <>
+                      <Link href="/login">
+                        <button className="px-4 py-2 border bg-white border-gray-400 text-black rounded-md hover:bg-gray-100">
+                          Sign in
+                        </button>
+                      </Link>
 
-                  <Link href="/register">
-                    <button className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800">
-                      Sign up
+                      <Link href="/register">
+                        <button className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800">
+                          Sign up
+                        </button>
+                      </Link>
+                    </>
+                  ) : (
+                    <button
+                      onClick={handleLogout}
+                      className="px-4 py-2 bg-red-800 text-white rounded-md hover:bg-red-700"
+                    >
+                      Logout
                     </button>
-                  </Link>
+                  )}
                 </div>
               </li>
             </ul>
           </nav>
         </div>
       </header>
+
 
       {/* Hero Section */}
       <section
@@ -69,6 +103,28 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+             {/* Display welcome message with a beautiful design */}
+      {username && (
+        <section id="welcome-message" className="py-12 bg-gradient-to-r from-sky-600 via-white-600 to-slate-600">
+          <div className="container mx-auto text-center text-white">
+            <h2 className="text-4xl font-extrabold mb-4">
+              Welcome back, <span className="text-black">{username}</span>!
+            </h2>
+            <p className="text-xl font-light">We are glad to have you back with us.</p>
+          </div>
+        </section>
+      )}
+
+      {/* Show logout message after logout */}
+      {loggedOut && (
+        <section id="logout-message" className="py-12 bg-gradient-to-r from-gray-500 via-gray-700 to-gray-500">
+          <div className="container mx-auto text-center text-white">
+            <h2 className="text-3xl font-bold mb-4">You have successfully logged out!</h2>
+            <p className="text-lg text-sky-300">We hope to see you again soon.♡</p>
+          </div>
+        </section>
+      )}
 
       {/* Services Section */}
       <section id="services" className="py-20 bg-slate-50">

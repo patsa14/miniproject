@@ -53,6 +53,7 @@ export async function POST(req) {
       { message: 'Login successful!', token, user },
       { status: 200 }
     );
+    
   } catch (error) {
     console.error('Error during login:', error);
     return NextResponse.json(

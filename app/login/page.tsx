@@ -46,11 +46,12 @@ export default function Login() {
         setError('');
         console.log('Logged in user:', data.user);
         
-        // Optionally store the token in localStorage or sessionStorage
+        // Store token and username
         localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.user.name);  // Store the username
 
-        // Redirect to a protected page (e.g., admin page or homepage)
-        router.push('/dashboard'); // Change '/dashboard' to wherever you want the user to go after login
+        // Redirect to the homepage
+        router.push('/'); // Back to Home after login
       } else {
         setError(data.message || 'Login failed, please try again.');
         setSuccess('');
@@ -61,6 +62,11 @@ export default function Login() {
     } finally {
       setLoading(false); // Stop loading once the request is done
     }
+  };
+
+  // Handle back to home page
+  const handleBackToHome = () => {
+    router.push('/'); // Redirect to the homepage
   };
 
   return (
@@ -79,11 +85,11 @@ export default function Login() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 border rounded"
             required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md"
           />
         </div>
-
+        
         <div className="mb-4">
           <label htmlFor="password" className="block font-medium text-gray-700">
             Password
@@ -93,18 +99,27 @@ export default function Login() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded"
             required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md"
           />
         </div>
 
-        <button
-          type="submit"
-          className={`w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ${loading ? 'bg-blue-300 cursor-not-allowed' : ''}`}
-          disabled={loading} // Disable button while loading
-        >
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
+        <div className="flex items-center justify-between">
+          <button
+            type="submit"
+            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            disabled={loading}
+          >
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
+          <button
+            type="button"
+            onClick={handleBackToHome}
+            className="px-4 py-2 text-blue-600 hover:text-blue-800"
+          >
+            Back to Home
+          </button>
+        </div>
       </form>
     </div>
   );
