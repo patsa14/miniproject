@@ -21,7 +21,7 @@ export default function Home() {
             <div className="text-2xl font-bold text-gray-800">UTO Advance</div>
           </div>
           <nav>
-            <ul className="flex space-x-6">
+            <ul className="flex space-x-6 items-center">
               {["Home", "About", "Properties", "Contact"].map((item) => (
                 <li key={item}>
                   <Link
@@ -32,13 +32,21 @@ export default function Home() {
                   </Link>
                 </li>
               ))}
-              {/* Login Button */}
+              {/* Sign In and Sign Up Buttons */}
               <li>
-                <Link href="/login">
-                  <button className="px-4 py-2 bg-sky-900 text-white rounded-md hover:bg-gray-700">
-                    Login
-                  </button>
-                </Link>
+                <div className="flex space-x-4">
+                  <Link href="/login">
+                    <button className="px-4 py-2 border bg-white border-gray-400 text-black rounded-md hover:bg-gray-100">
+                      Sign in
+                    </button>
+                  </Link>
+
+                  <Link href="/register">
+                    <button className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800">
+                      Sign up
+                    </button>
+                  </Link>
+                </div>
               </li>
             </ul>
           </nav>
@@ -59,94 +67,6 @@ export default function Home() {
           <p className="mt-4 text-lg max-w-xl mx-auto">
             Discover luxurious properties tailored to your needs.
           </p>
-          {/* Hero Login Button */}
-          <div className="mt-8">
-            <Link href="/login">
-              <button className="px-6 py-3 bg-sky-900 text-white text-lg rounded-full hover:bg-gray-700">
-                Login
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Register Section */}
-      <section id="register" className="py-20 bg-white">
-        <div className="container mx-auto text-center">
-          <h2 className="text-4xl font-extrabold text-gray-800 mb-6">Register Now</h2>
-          <form
-            className="max-w-md mx-auto bg-gray-50 p-6 rounded-lg shadow-lg"
-            onSubmit={async (e) => {
-              e.preventDefault();
-              const formData = new FormData(e.target);
-              const data = {
-                name: formData.get("name"),
-                email: formData.get("email"),
-                password: formData.get("password"),
-              };
-
-              try {
-                const response = await fetch('/api/register', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(data),
-                });
-
-                if (response.ok) {
-                  const result = await response.json();
-                  console.log("Success:", result);
-                  alert("Registration successful!");
-                } else {
-                  const error = await response.json();
-                  console.error("Error:", error.message);
-                  alert(`Error: ${error.message}`);
-                }
-              } catch (error) {
-                console.error("Unexpected error:", error);
-                alert("An unexpected error occurred. Please try again.");
-              }
-            }}
-          >
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700 font-medium mb-2">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Enter your name"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-900"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-900"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="password" className="block text-gray-700 font-medium mb-2">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-sky-900"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full px-4 py-2 bg-sky-900 text-white rounded-lg hover:bg-gray-700"
-            >
-              Register
-            </button>
-          </form>
         </div>
       </section>
 
@@ -174,11 +94,12 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Locations Section */}
+    
+      {/* Our Locations Section */}
       <section id="locations" className="py-20 bg-gray-100">
         <div className="container mx-auto text-center">
           <h2 className="text-4xl font-extrabold text-gray-800 mb-6">Our Locations</h2>
+          <p className="text-gray-700 mb-8">Find us in the most convenient locations around the city.</p>
           <iframe
             src="https://www.google.com/maps/embed?pb=..."
             width="100%"
@@ -190,13 +111,31 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Contact Info Section */}
+      <section id="contact-info" className="py-12 bg-white">
+        <div className="container mx-auto text-center">
+          <h3 className="text-3xl font-semibold text-gray-800 mb-4">Contact Info</h3>
+          <p className="text-gray-600 mb-6">We’d love to hear from you. Reach out to us through any of the following:</p>
+          <div className="flex flex-col space-y-4 items-center">
+            <p className="text-lg font-medium text-gray-700">
+              <strong>Phone:</strong> +66 98 947 9155 <br /> +66 98 764 7897
+            </p>
+            <p className="text-lg font-medium text-gray-700">
+              <strong>Email:</strong> Utoadvance@gmail.com
+            </p>
+            <p className="text-lg font-medium text-gray-700">
+              <strong>Office Address:</strong> 123/112 Saransiri(koh kaew), Mueang, Phuket 83000
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-gray-800 text-white py-8">
         <div className="container mx-auto text-center">
-          <p className="text-gray-400 mb-4">
-            <Link href="/login" className="text-sky-500 hover:underline">Login</Link>
+          <p className="text-gray-400">
+            &copy; 2024 UTO Advance Engineering. All rights reserved.
           </p>
-          <p className="text-gray-400">&copy; 2024 UTO Advance Engineering. All rights reserved.</p>
         </div>
       </footer>
     </div>
