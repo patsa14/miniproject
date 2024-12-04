@@ -1,6 +1,3 @@
-// /app/api/register/route.js (or any preferred path within /app/api)
-'use client';
-
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
@@ -8,7 +5,10 @@ const prisma = new PrismaClient();
 
 export async function POST(req) {
   try {
-    // Parse the incoming JSON body
+    // Log request information for debugging
+    console.log('Incoming POST request');
+
+    // Parse the JSON body
     const { name, email, password } = await req.json();
 
     // Basic validation
@@ -28,7 +28,7 @@ export async function POST(req) {
       );
     }
 
-    // Check if the email already exists in the database
+    // Check if the email already exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -52,19 +52,14 @@ export async function POST(req) {
       },
     });
 
-    console.log('Created user:', user);
-
-    // Respond with the newly created user
+    // Respond with success
+    console.log('User created successfully:', user);
     return new Response(
       JSON.stringify({ message: 'User registered successfully!', user }),
-      {
-        status: 201,
-        headers: { 'Content-Type': 'application/json' },
-      }
+      { status: 201, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (error) {
     console.error('Error during registration:', error);
-
     return new Response(
       JSON.stringify({
         message: 'An error occurred while registering the user.',
@@ -73,7 +68,7 @@ export async function POST(req) {
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   } finally {
-    // Ensure Prisma disconnects properly
+    // Disconnect Prisma client
     await prisma.$disconnect();
   }
 }
