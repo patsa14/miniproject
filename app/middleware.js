@@ -1,18 +1,16 @@
-// /app/middleware.js
 import { NextResponse } from 'next/server';
 
 export function middleware(req) {
-  const { cookies } = req;
-  const token = cookies.get('admin-token');  // Check if the admin token is set
+  const token = req.cookies.get('admin-token');
 
-  // If there's no token or it's invalid, redirect to the login page
-  if (!token || token !== 'your-secret-token') {
-    return NextResponse.redirect('/login');  // Redirect to a login page or unauthorized page
+  if (!token || token !== process.env.NEXT_PUBLIC_ADMIN_TOKEN) {
+    // Redirect to admin login if not authenticated
+    return NextResponse.redirect(new URL('/admin/login', req.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/admin/**'],  // Protect the admin page route
+  matcher: ['/admin/properties/:path*'], // Apply middleware to admin properties
 };

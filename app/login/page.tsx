@@ -17,6 +17,7 @@ export default function Login() {
     setSuccess(''); // Reset success message
     setLoading(true); // Start loading
 
+    
     // Basic client-side validation
     if (!email || !password) {
       setError('Email and password are required.');

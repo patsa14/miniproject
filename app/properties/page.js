@@ -53,19 +53,28 @@ export default function Properties() {
             <div className="text-2xl font-bold text-gray-800">UTO Advance</div>
           </div>
           <nav>
-            <ul className="flex space-x-6">
-              {["Home", "About", "Properties", "Contact"].map((item) => (
-                <li key={item}>
-                  <Link
-                    href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                    className="text-gray-900 font-medium hover:text-slate-500 transition-all"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+  <ul className="flex space-x-6">
+    {['Home', 'About', 'Properties', 'Contact'].map((item) => (
+      <li key={item}>
+        <Link
+          href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+          className="text-gray-900 font-medium hover:text-slate-500 transition-all"
+        >
+          {item}
+        </Link>
+      </li>
+    ))}
+    <li>
+      <Link
+        href="/admin/login"
+        className="text-red-600 font-medium hover:text-red-800 transition-all"
+      >
+        Admin
+      </Link>
+    </li>
+  </ul>
+</nav>
+
         </div>
       </header>
 
