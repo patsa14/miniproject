@@ -1,52 +1,74 @@
 'use client';
+
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
-export default function LoginPage() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const router = useRouter();
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-        // Mock credentials
-        if (username === 'admin' && password === 'password') {
-            localStorage.setItem('auth', 'true');
-            router.push('/dashboard'); // Redirect to the dashboard after login
-        } else {
-            alert('Invalid username or password');
-        }
-    };
+      const data = await response.json();
 
-    return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <form
-                onSubmit={handleLogin}
-                className="bg-white p-6 rounded shadow-md w-80"
-            >
-                <h1 className="text-xl font-bold mb-4">Login</h1>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="w-full mb-4 p-2 border border-gray-300 rounded"
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full mb-4 p-2 border border-gray-300 rounded"
-                />
-                <button
-                    type="submit"
-                    className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-                >
-                    Login
-                </button>
-            </form>
+      if (response.ok) {
+        setSuccess('Login successful!');
+        setError('');
+        console.log('Logged in user:', data.user);
+      } else {
+        setError(data.message);
+        setSuccess('');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('An unexpected error occurred.');
+    }
+  };
+
+  return (
+    <div className="container mx-auto py-20">
+      <h1 className="text-3xl font-bold mb-6 text-center">Login</h1>
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-gray-100 p-6 rounded-lg shadow">
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        {success && <p className="text-green-500 mb-4">{success}</p>}
+        <div className="mb-4">
+          <label htmlFor="email" className="block font-medium text-gray-700">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-2 border rounded"
+            required
+          />
         </div>
-    );
+        <div className="mb-4">
+          <label htmlFor="password" className="block font-medium text-gray-700">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 border rounded"
+            required
+          />
+        </div>
+        <button type="submit" className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+          Login
+        </button>
+      </form>
+    </div>
+  );
 }
